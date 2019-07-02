@@ -1,11 +1,11 @@
-# B.校验 TLS 证书
+# 校验证书
 
-以校验 kubernetes 证书为例：
+以校验 kubernetes 证书(后续部署 master 节点时生成的)为例：
 
-## 使用 `openssl` 命令
+## 使用 openssl 命令
 
 ``` bash
-$ openssl x509 -noout -text -in kubernetes.pem
+$ openssl x509  -noout -text -in  kubernetes.pem
 ...
     Signature Algorithm: sha256WithRSAEncryption
         Issuer: C=CN, ST=BeiJing, L=BeiJing, O=k8s, OU=System, CN=Kubernetes
@@ -31,12 +31,12 @@ $ openssl x509 -noout -text -in kubernetes.pem
 ...
 ```
 
-+ 确认 `Issuer` 字段的内容和 `ca-csr.json` 一致；
-+ 确认 `Subject` 字段的内容和 `kubernetes-csr.json` 一致；
-+ 确认 `X509v3 Subject Alternative Name` 字段的内容和 `kubernetes-csr.json` 一致；
-+ 确认 `X509v3 Key Usage、Extended Key Usage` 字段的内容和 `ca-config.json` 中 `kubernetes` profile 一致；
++ 确认 Issuer 字段的内容和 ca-csr.json 一致；
++ 确认 Subject 字段的内容和 kubernetes-csr.json 一致；
++ 确认 X509v3 Subject Alternative Name 字段的内容和 kubernetes-csr.json 一致；
++ 确认 X509v3 Key Usage、Extended Key Usage 字段的内容和 ca-config.json 中 kubernetes profile 一致；
 
-## 使用 `cfssl-certinfo` 命令
+## 使用 cfssl-certinfo 命令
 
 ``` bash
 $ cfssl-certinfo -cert kubernetes.pem
@@ -93,18 +93,8 @@ $ cfssl-certinfo -cert kubernetes.pem
 ...
 ```
 
-## 校验证书是否被 CA 证书签名
+## 参考
 
-正确的情况：
-``` bash
-$ openssl verify -CAfile /etc/kubernetes/cert/ca.pem /etc/kubernetes/cert/kubernetes.pem
-/etc/kubernetes/cert/kubernetes.pem: OK
-```
-
-失败的情况：
-
-``` bash
-$ openssl verify -CAfile ca_wrong.pem /etc/kubernetes/cert/kubernetes.pem
-/etc/kubernetes/cert/kubernetes.pem: C = CN, ST = BeiJing, L = BeiJing, O = k8s, OU = 4Paradigm, CN = kubernetes
-error 20 at 0 depth lookup:unable to get local issuer certificate
-```
++ [Generate self-signed certificates](https://coreos.com/os/docs/latest/generate-self-signed-certificates.html)
++ [Setting up a Certificate Authority and Creating TLS Certificates](https://github.com/kelseyhightower/kubernetes-the-hard-way/blob/master/docs/02-certificate-authority.md)
++ [Client Certificates V/s Server Certificates](https://blogs.msdn.microsoft.com/kaushal/2012/02/17/client-certificates-vs-server-certificates/)
