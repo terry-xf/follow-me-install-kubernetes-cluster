@@ -68,6 +68,10 @@
   <img src="https://github.com/opsnull/follow-me-install-kubernetes-cluster/blob/master/images/weixin_qr.jpg?raw=true" alt="weixin_qr.jpg"/>
 </p>
 
+## 广告位
+
+***
+
 ## 版权
 
 Copyright 2017-2019 zhangjun (geekard@qq.com)
