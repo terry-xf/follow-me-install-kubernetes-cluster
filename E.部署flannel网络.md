@@ -1,10 +1,10 @@
 tags: flanneld
 
-# 05.部署 flannel 网络
+# E. 部署 flannel 网络
 
 <!-- TOC -->
 
-- [05.部署 flannel 网络](#05部署-flannel-网络)
+- [E. 部署 flannel 网络](#e-部署-flannel-网络)
     - [下载和分发 flanneld 二进制文件](#下载和分发-flanneld-二进制文件)
     - [创建 flannel 证书和私钥](#创建-flannel-证书和私钥)
     - [向 etcd 写入集群 Pod 网段信息](#向-etcd-写入集群-pod-网段信息)
@@ -24,7 +24,11 @@ flanneld 第一次启动时，从 etcd 获取配置的 Pod 网段信息，为本
 
 flannel 将分配给自己的 Pod 网段信息写入 `/run/flannel/docker` 文件，docker 后续使用这个文件中的环境变量设置 `docker0` 网桥，从而从这个地址段为本节点的所有 Pod 容器分配 IP。
 
-注意：如果没有特殊指明，本文档的所有操作**均在 zhangjun-k8s01 节点上执行**，然后远程分发文件和执行命令。
+注意：
+1. 如果没有特殊指明，本文档的所有操作**均在 zhangjun-k8s01 节点上执行**，然后远程分发文件和执行命令；
+2. flanneld 与本文档部署的 etcd v3.4.x 不兼容，需要将 etcd 降级到 v3.3.x；
+3. flanneld 与 docker 结合使用；
+    
 
 ## 下载和分发 flanneld 二进制文件
 
